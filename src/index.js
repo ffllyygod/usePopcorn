@@ -2,16 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { StarRating } from './components/StarRating';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <App />
+    {/* <StarRating maxRating={5}/> */}
+    {/* <StarRating maxRating={10}/> */}
+    {/* god gives us enough time to practice wisdom what is left is you and your learning against the world and chaos all around have some patience not all days are meant to be sad or overwhelming ignore what you cant control and just focus most on the things you can control */}
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
