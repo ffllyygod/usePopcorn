@@ -1,6 +1,9 @@
-const Error = () => {
+const Error = ({ message }) => {
   return (
-    <div className="error">Something went wrong</div>
-  )
-}
-export default Error
+    <div className="error">
+      <span>❌</span>
+      <p>{message}</p>
+    </div>
+  );
+};
+export default Error;
