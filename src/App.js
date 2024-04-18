@@ -11,7 +11,7 @@ import Error from "./components/Error.jsx";
 import { MovieDetails } from "./components/MovieDetails.jsx";
 
 export default function App() {
-  const [query, setQuery] = useState("matrix");
+  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -22,20 +22,24 @@ export default function App() {
   const [selectedId, setSelectedId] = useState(null);
 
   useEffect(() => {
+    const controller = new AbortController();
     const asyncFn = async function () {
       try {
         setIsLoading(true);
         setError("");
         const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
+          `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`,
+          { signal: controller.signal }
         );
         if (!res.ok) throw new Error("Something went wrong!!");
         const data = await res.json();
         if (data.Response === "False") throw new Error("Movie not found");
         setMovies(data.Search);
-        console.log(data.Search);
+        setError("");
       } catch (err) {
-        setError(err.message);
+        if (err.name !== "AbortError") {
+          setError(err.message);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -45,7 +49,11 @@ export default function App() {
       setError("");
       return;
     }
+    setSelectedId(null);
     asyncFn();
+    return function () {
+      controller.abort();
+    };
   }, [query]);
 
   return (
@@ -77,7 +85,7 @@ export default function App() {
           ) : (
             <>
               <Summary watched={watched} />
-              <WatchedMovies watched={watched} />
+              <WatchedMovies watched={watched} setWatched={setWatched} />
             </>
           )}
         </Box>
