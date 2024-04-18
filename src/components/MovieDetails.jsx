@@ -77,7 +77,7 @@ export const MovieDetails = ({
     return function () {
       document.removeEventListener("keydown", callback);
     };
-  }, []);
+  }, [setSelectedId]);
   return (
     <div className="details">
       {isLoading ? (
