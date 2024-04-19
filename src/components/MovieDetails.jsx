@@ -44,6 +44,7 @@ export const MovieDetails = ({
     (movie) => movie.imdbID === selectedId
   )?.userRating;
 
+
   useEffect(() => {
     const asyncFn = async function () {
       setIsLoading(true);
@@ -67,17 +68,21 @@ export const MovieDetails = ({
     };
   }, [title]);
 
-  useEffect(function () {
-    const callback = (e) => {
-      if (e.code === "Escape") {
-        setSelectedId(null);
-      }
-    };
-    document.addEventListener("keydown", callback);
-    return function () {
-      document.removeEventListener("keydown", callback);
-    };
-  }, [setSelectedId]);
+  useEffect(
+    function () {
+      const callback = (e) => {
+        if (e.code === "Escape") {
+          setSelectedId(null);
+        }
+      };
+      document.addEventListener("keydown", callback);
+      return function () {
+        document.removeEventListener("keydown", callback);
+      };
+    },
+    [setSelectedId]
+  );
+
   return (
     <div className="details">
       {isLoading ? (
